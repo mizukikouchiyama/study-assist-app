@@ -1,7 +1,9 @@
 import React, { useEffect, useState, useMemo, useCallback } from 'react';
-import { Play, Pause, RotateCcw, ArrowLeft } from 'lucide-react';
+import { PlayIcon, PauseIcon, ResetIcon, ArrowLeftIcon, TimerIcon } from './icons/Icons';
 import { Link } from 'react-router-dom';
 import { useTimer } from '../context/TimerContext';
+import { statsService } from '../services/statsService';
+import { sendPomodoroCompleteNotification } from '../services/slackService';
 
 const PomodoroTimer = () => {
     const {
@@ -18,12 +20,22 @@ const PomodoroTimer = () => {
 
     const [completedSessions, setCompletedSessions] = useState(0);
 
-    // セッション完了時にカウントを増やす
+    // セッション完了時にカウントを増やし、統計を保存
     useEffect(() => {
-        if (isCompleted && mode === 'work') {
-            setCompletedSessions(prev => prev + 1);
+        if (isCompleted) {
+            if (mode === 'work') {
+                setCompletedSessions(prev => prev + 1);
+            }
+            // 統計保存
+            statsService.savePomodoroSession({
+                taskName: taskName || '学習',
+                duration: mode === 'work' ? 25 : 5,
+                type: mode
+            });
+            // 通知
+            sendPomodoroCompleteNotification(taskName, mode === 'work' ? 25 : 5).catch(console.error);
         }
-    }, [isCompleted, mode]);
+    }, [isCompleted, mode, taskName]);
 
     const totalTime = mode === 'work' ? 25 * 60 : 5 * 60;
 
@@ -36,24 +48,33 @@ const PomodoroTimer = () => {
     }, [timeLeft, totalTime]);
 
     const timerColor = useMemo(() => {
-        if (mode === 'break') return 'stroke-blue-500';
-        return 'stroke-[var(--color-primary)]';
+        return mode === 'work' ? 'var(--color-primary)' : 'var(--color-accent-teal)';
     }, [mode]);
 
-    const formattedTime = useMemo(() => {
-        const minutes = Math.floor(timeLeft / 60);
-        const seconds = timeLeft % 60;
-        return `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
-    }, [timeLeft]);
+    const formatTime = useCallback((seconds) => {
+        const mins = Math.floor(seconds / 60);
+        const secs = seconds % 60;
+        return `${String(mins).padStart(2, '0')}:${String(secs).padStart(2, '0')}`;
+    }, []);
 
     return (
         <div className="min-h-screen bg-[var(--color-bg-secondary)] flex flex-col animate-fadeIn pb-24 md:pb-0">
-            {/* Header / Nav */}
-            <div className="p-4 md:p-8">
-                <Link to="/" className="inline-flex items-center text-[var(--color-text-secondary)] hover:text-[var(--color-primary)] transition-colors hover-scale tap-target">
-                    <ArrowLeft className="mr-2" size={20} /> <span className="text-sm md:text-base">ホームに戻る</span>
-                </Link>
-            </div>
+            {/* Header */}
+            <header className="sticky top-0 z-40 shadow-sm bg-[var(--color-bg-card)] border-b border-[var(--color-border)]">
+                <div className="max-w-7xl mx-auto px-4 py-3 flex items-center">
+                    <Link to="/" className="mr-4 text-[var(--color-text-secondary)] hover:text-[var(--color-primary)] md:hidden">
+                        <ArrowLeftIcon size={20} />
+                    </Link>
+                    <h1 style={{
+                        display: 'flex', alignItems: 'center', gap: '8px',
+                        fontFamily: "'Libre Baskerville', serif",
+                        color: 'var(--color-primary)', fontSize: '20px', fontWeight: '700'
+                    }}>
+                        <TimerIcon size={22} color="var(--color-primary)" />
+                        Timer
+                    </h1>
+                </div>
+            </header>
 
             {/* Main Content */}
             <div className="flex-1 flex items-center justify-center p-4">
@@ -133,11 +154,19 @@ const PomodoroTimer = () => {
                         </svg>
 
                         <div className="absolute inset-0 flex flex-col items-center justify-center">
-                            <span className="text-4xl mb-2 animate-bounce-slow">
-                                {isActive ? (mode === 'work' ? '🍅' : '☕') : '⏸️'}
-                            </span>
-                            <div className={`text-5xl font-mono font-bold tracking-wider ${mode === 'work' ? 'text-[var(--color-text-primary)]' : 'text-blue-600 dark:text-blue-400'}`}>
-                                {formattedTime}
+                            <div className="text-6xl mb-2">
+                                {isActive ? (
+                                    mode === 'work' ? (
+                                        <TimerIcon size={36} color="var(--color-primary)" />
+                                    ) : (
+                                        '☕'
+                                    )
+                                ) : (
+                                    <PauseIcon size={32} color="var(--color-primary)" />
+                                )}
+                            </div>
+                            <div className="text-5xl font-mono font-bold tracking-wider ${mode === 'work' ? 'text-[var(--color-text-primary)]' : 'text-blue-600 dark:text-blue-400'}">
+                                {formatTime(timeLeft)}
                             </div>
                             <div className="text-xs text-[var(--color-text-muted)] mt-1 font-medium">
                                 {isActive ? '進行中' : '一時停止'}
@@ -150,14 +179,14 @@ const PomodoroTimer = () => {
                             onClick={toggleTimer}
                             className={`flex items-center justify-center w-16 h-16 rounded-full text-white transition-smooth shadow-lg hover:scale-105 active:scale-95 ${isActive ? 'bg-[var(--color-accent-coral)]' : (mode === 'work' ? 'bg-[var(--color-primary)]' : 'bg-blue-500')}`}
                         >
-                            {isActive ? <Pause size={32} fill="currentColor" /> : <Play size={32} fill="currentColor" className="ml-1" />}
+                            {isActive ? <PauseIcon size={32} color="currentColor" /> : <PlayIcon size={32} color="currentColor" />}
                         </button>
 
                         <button
                             onClick={resetTimer}
                             className="flex items-center justify-center w-16 h-16 rounded-full bg-[var(--color-bg-card)] text-[var(--color-text-secondary)] hover:bg-[var(--color-bg-hover)] transition-smooth border border-[var(--color-border)] shadow-sm hover:scale-105 active:scale-95"
                         >
-                            <RotateCcw size={28} />
+                            <ResetIcon size={24} color="currentColor" />
                         </button>
                     </div>
 

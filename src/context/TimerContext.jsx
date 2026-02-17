@@ -1,5 +1,6 @@
 import React, { createContext, useState, useContext, useEffect } from 'react';
 import { sendPomodoroStartNotification, sendPomodoroCompleteNotification } from '../services/slackService';
+import { statsService } from '../services/statsService';
 
 const TimerContext = createContext();
 
@@ -27,6 +28,14 @@ export const TimerProvider = ({ children }) => {
 
     const handleComplete = () => {
         setIsCompleted(true);
+
+        // 統計を保存
+        statsService.savePomodoroSession({
+            taskName: taskName || '学習',
+            duration: mode === 'work' ? 25 : 5,
+            type: mode
+        });
+
         if ('Notification' in window && Notification.permission === 'granted') {
             new Notification('ポモドーロ完了！', { body: 'お疲れ様でした。休憩しましょう。' });
         }

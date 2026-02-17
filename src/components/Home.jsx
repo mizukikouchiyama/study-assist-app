@@ -1,133 +1,199 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Link } from 'react-router-dom';
-import { Bell } from 'lucide-react';
-import { sendSlackMessage } from '../services/slackService';
+import {
+    TimerIcon, CalendarIcon, ArchiveIcon, StatsIcon,
+    BellIcon, SearchIcon, FileIcon, ClockIcon,
+    TrendingUpIcon, ArrowRightIcon
+} from './icons/Icons';
 import ThemeToggle from './ThemeToggle';
+import { useTheme } from '../contexts/ThemeContext';
 
 const Home = () => {
-    const [loading, setLoading] = useState(false);
+    const { isDark } = useTheme();
 
-    const handleTestNotification = async () => {
-        setLoading(true);
-        try {
-            await sendSlackMessage('🔔 Slack通知テスト: ボタンが押されました！');
-            alert('Slackに通知を送信しました！');
-        } catch (error) {
-            alert('通知の送信に失敗しました。');
-        } finally {
-            setLoading(false);
-        }
+    // バッジの共通スタイル
+    const badgeStyle = isDark ? {
+        display: 'inline-flex',
+        alignItems: 'center',
+        gap: '5px',
+        padding: '5px 12px',
+        borderRadius: '999px',
+        background: 'rgba(74,222,128,0.12)',
+        fontFamily: "'Libre Baskerville', Baskerville, serif",
+        fontSize: '11px',
+        fontWeight: '700',
+        color: '#4ADE80',
+        border: '1px solid rgba(74,222,128,0.2)',
+        letterSpacing: '0.02em',
+    } : {
+        display: 'inline-flex',
+        alignItems: 'center',
+        gap: '5px',
+        padding: '5px 12px',
+        borderRadius: '999px',
+        background: 'rgba(0,112,74,0.10)',
+        fontFamily: "'Libre Baskerville', Baskerville, serif",
+        fontSize: '11px',
+        fontWeight: '700',
+        color: 'var(--color-primary)',
+        border: '1px solid rgba(0,112,74,0.15)',
+        letterSpacing: '0.02em',
     };
 
+    const badgeIconColor = isDark ? '#4ADE80' : 'var(--color-primary)';
+
     return (
-        <div className="min-h-screen bg-[var(--color-bg-primary)] pb-24 md:pb-16 animate-fadeIn smooth-scroll">
-            {/* ヘッダー */}
-            <header className="sticky top-0 bg-[var(--color-bg-card)]/90 backdrop-blur-md shadow-sm z-40 mobile-padding border-b border-[var(--color-border)] transition-smooth">
-                <div className="max-w-7xl mx-auto flex items-center justify-between">
-                    <h1 className="heading-responsive font-bold text-[var(--color-primary)] truncate">
-                        防府市学習アシスト
-                    </h1>
-                    <div className="flex items-center gap-3">
-                        <ThemeToggle />
-                        <button
-                            onClick={handleTestNotification}
-                            disabled={loading}
-                            className="tap-target bg-[var(--color-primary)] text-[var(--color-text-inverse)] rounded-lg px-4 hover-scale active-press transition-smooth shadow-md disabled:opacity-50 text-sm md:text-base whitespace-nowrap flex items-center"
-                        >
-                            <Bell size={18} className="mr-2" />
-                            <span className="hidden md:inline">Slack通知テスト</span>
-                        </button>
+        <div className="min-h-screen pb-20 animate-fadeIn" style={{ backgroundColor: 'var(--color-bg-primary)' }}>
+            {/* Header */}
+            <header className="sticky top-0 z-40 shadow-sm" style={{ backgroundColor: 'var(--color-bg-card)', borderBottom: '1px solid var(--color-border)' }}>
+                <div className="max-w-7xl mx-auto px-4 py-4 flex justify-between items-center">
+                    <div>
+                        <h1 className="text-2xl font-bold" style={{ fontFamily: "'Libre Baskerville', Baskerville, serif", color: 'var(--color-primary)' }}>
+                            Study Assist
+                        </h1>
+                        <p className="text-xs italic mt-0.5" style={{ fontFamily: "'Libre Baskerville', Baskerville, serif", color: 'var(--color-text-muted)' }}>
+                            Hofu City Learning Platform
+                        </p>
                     </div>
+                    <ThemeToggle />
                 </div>
             </header>
 
-            {/* メインコンテンツ */}
-            <main className="max-w-7xl mx-auto mobile-padding py-6 md:py-10">
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
+            <main className="max-w-7xl mx-auto px-4 py-8">
+                {/* Welcome Section */}
+                <div className="text-center mb-12 animate-fadeIn">
+                    <h2 className="text-3xl md:text-4xl font-bold mb-3" style={{ fontFamily: "'Libre Baskerville', Baskerville, serif", color: 'var(--color-text-primary)' }}>
+                        Welcome
+                    </h2>
+                    <p className="text-base md:text-lg italic" style={{ fontFamily: "'Libre Baskerville', Baskerville, serif", color: 'var(--color-text-secondary)' }}>
+                        Your personal study companion
+                    </p>
+                </div>
 
-                    {/* ポモドーロカード */}
-                    <div className="mobile-card hover-lift animate-slideUp-delay-1 bg-gradient-to-br from-[var(--color-bg-card)] to-[var(--color-bg-secondary)] dark:from-[var(--color-bg-card)] dark:to-[var(--color-bg-hover)]">
-                        {/* アイコン背景 */}
-                        <div className="w-20 h-20 mx-auto mb-4 rounded-full bg-[var(--color-primary)] bg-opacity-10 flex items-center justify-center border border-[var(--color-primary)]/20">
-                            <span className="text-5xl">🍅</span>
+                {/* Feature Cards Grid */}
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-4xl mx-auto">
+
+                    {/* Timer Card */}
+                    <div className="mobile-card hover-lift animate-slideUp bg-gradient-to-br from-[var(--color-bg-card)] to-[var(--color-bg-secondary)]">
+                        <div className="w-20 h-20 mx-auto mb-4 rounded-2xl flex items-center justify-center" style={{ backgroundColor: 'rgba(0,112,74,0.08)' }}>
+                            <TimerIcon size={40} color="var(--color-primary)" />
                         </div>
 
-                        <h2 className="text-xl font-bold mb-2 text-center text-[var(--color-primary)]">
-                            ポモドーロタイマー
+                        <h2 className="text-xl font-bold mb-2 text-center" style={{ fontFamily: "'Libre Baskerville', Baskerville, serif", color: 'var(--color-primary)' }}>
+                            Timer
                         </h2>
 
-                        <p className="text-sm text-[var(--color-text-secondary)] mb-4 text-center">
+                        <p className="text-sm mb-4 text-center" style={{ fontFamily: "'Libre Baskerville', Baskerville, serif", fontStyle: 'italic', color: 'var(--color-text-secondary)' }}>
                             25分集中 × 5分休憩で<br />効率的に学習
                         </p>
 
-                        {/* 統計バッジ */}
-                        <div className="flex justify-center gap-3 mb-6">
-                            <span className="bg-[var(--color-bg-secondary)] text-[var(--color-text-primary)] text-xs px-3 py-1 rounded-full border border-[var(--color-border)]">
-                                🎯 集中力UP
+                        <div style={{ display: 'flex', justifyContent: 'center', gap: '8px', flexWrap: 'wrap', marginBottom: '16px' }}>
+                            <span style={badgeStyle}>
+                                <TimerIcon size={11} color={badgeIconColor} />
+                                Pomodoro
                             </span>
-                            <span className="bg-[var(--color-bg-secondary)] text-[var(--color-text-primary)] text-xs px-3 py-1 rounded-full border border-[var(--color-border)]">
-                                ⏱️ 25分
+                            <span style={badgeStyle}>
+                                <BellIcon size={11} color={badgeIconColor} />
+                                Notification
                             </span>
                         </div>
 
-                        <Link to="/timer" className="block w-full tap-target bg-[var(--color-primary)] text-[var(--color-text-inverse)] text-center rounded-xl py-3 font-semibold hover-scale transition-smooth shadow-md active-press">
-                            タイマーを開く →
+                        <Link to="/timer" className="flex items-center justify-center gap-2 w-full tap-target text-white rounded-xl py-3 font-semibold hover-scale transition-smooth shadow-md" style={{ fontFamily: "'Libre Baskerville', Baskerville, serif", backgroundColor: 'var(--color-primary)' }}>
+                            <span>Open Timer</span>
+                            <ArrowRightIcon size={16} color="white" />
                         </Link>
                     </div>
 
-                    {/* カレンダーカード */}
-                    <div className="mobile-card hover-lift animate-slideUp-delay-2 bg-gradient-to-br from-[var(--color-bg-card)] to-[var(--color-bg-secondary)] dark:from-[var(--color-bg-card)] dark:to-[var(--color-bg-hover)]">
-                        <div className="w-20 h-20 mx-auto mb-4 rounded-full bg-blue-50 dark:bg-blue-900/30 flex items-center justify-center border border-blue-100 dark:border-blue-800">
-                            <span className="text-5xl">📅</span>
+                    {/* Calendar Card */}
+                    <div className="mobile-card hover-lift animate-slideUp-delay-1 bg-gradient-to-br from-[var(--color-bg-card)] to-[var(--color-bg-secondary)]">
+                        <div className="w-20 h-20 mx-auto mb-4 rounded-2xl flex items-center justify-center" style={{ backgroundColor: 'rgba(0,112,74,0.08)' }}>
+                            <CalendarIcon size={40} color="var(--color-primary)" />
                         </div>
 
-                        <h2 className="text-xl font-bold mb-2 text-center text-blue-600 dark:text-blue-400">
-                            学習カレンダー
+                        <h2 className="text-xl font-bold mb-2 text-center" style={{ fontFamily: "'Libre Baskerville', Baskerville, serif", color: 'var(--color-primary)' }}>
+                            Calendar
                         </h2>
 
-                        <p className="text-sm text-[var(--color-text-secondary)] mb-4 text-center">
+                        <p className="text-sm mb-4 text-center" style={{ fontFamily: "'Libre Baskerville', Baskerville, serif", fontStyle: 'italic', color: 'var(--color-text-secondary)' }}>
                             テスト日程を管理<br />自動リマインダー付き
                         </p>
 
-                        <div className="flex justify-center gap-3 mb-6">
-                            <span className="bg-blue-50 dark:bg-blue-900/40 text-blue-700 dark:text-blue-300 text-xs px-3 py-1 rounded-full border border-blue-100 dark:border-blue-800">
-                                🔔 自動通知
+                        <div style={{ display: 'flex', justifyContent: 'center', gap: '8px', flexWrap: 'wrap', marginBottom: '16px' }}>
+                            <span style={badgeStyle}>
+                                <CalendarIcon size={11} color={badgeIconColor} />
+                                Schedule
                             </span>
-                            <span className="bg-blue-50 dark:bg-blue-900/40 text-blue-700 dark:text-blue-300 text-xs px-3 py-1 rounded-full border border-blue-100 dark:border-blue-800">
-                                📆 日程管理
+                            <span style={badgeStyle}>
+                                <ClockIcon size={11} color={badgeIconColor} />
+                                Reminder
                             </span>
                         </div>
 
-                        <Link to="/calendar" className="block w-full tap-target bg-blue-500 text-white text-center rounded-xl py-3 font-semibold hover-scale transition-smooth shadow-md active-press">
-                            カレンダーを開く →
+                        <Link to="/calendar" className="flex items-center justify-center gap-2 w-full tap-target text-white rounded-xl py-3 font-semibold hover-scale transition-smooth shadow-md" style={{ fontFamily: "'Libre Baskerville', Baskerville, serif", backgroundColor: 'var(--color-primary)' }}>
+                            <span>Open Calendar</span>
+                            <ArrowRightIcon size={16} color="white" />
                         </Link>
                     </div>
 
-                    {/* アーカイブカード */}
-                    <div className="mobile-card hover-lift animate-slideUp-delay-3 bg-gradient-to-br from-[var(--color-bg-card)] to-[var(--color-bg-secondary)] dark:from-[var(--color-bg-card)] dark:to-[var(--color-bg-hover)]">
-                        <div className="w-20 h-20 mx-auto mb-4 rounded-full bg-amber-50 dark:bg-amber-900/30 flex items-center justify-center border border-amber-100 dark:border-amber-800">
-                            <span className="text-5xl">📚</span>
+                    {/* Archive Card */}
+                    <div className="mobile-card hover-lift animate-slideUp-delay-2 bg-gradient-to-br from-[var(--color-bg-card)] to-[var(--color-bg-secondary)]">
+                        <div className="w-20 h-20 mx-auto mb-4 rounded-2xl flex items-center justify-center" style={{ backgroundColor: 'rgba(0,112,74,0.08)' }}>
+                            <ArchiveIcon size={40} color="var(--color-primary)" />
                         </div>
 
-                        <h2 className="text-xl font-bold mb-2 text-center text-amber-600 dark:text-amber-400">
-                            テストアーカイブ
+                        <h2 className="text-xl font-bold mb-2 text-center" style={{ fontFamily: "'Libre Baskerville', Baskerville, serif", color: 'var(--color-primary)' }}>
+                            Archive
                         </h2>
 
-                        <p className="text-sm text-[var(--color-text-secondary)] mb-4 text-center">
+                        <p className="text-sm mb-4 text-center" style={{ fontFamily: "'Libre Baskerville', Baskerville, serif", fontStyle: 'italic', color: 'var(--color-text-secondary)' }}>
                             過去問を保存・管理<br />いつでも振り返り可能
                         </p>
 
-                        <div className="flex justify-center gap-3 mb-6">
-                            <span className="bg-amber-50 dark:bg-amber-900/40 text-amber-700 dark:text-amber-300 text-xs px-3 py-1 rounded-full border border-amber-100 dark:border-amber-800">
-                                📁 PDF対応
+                        <div style={{ display: 'flex', justifyContent: 'center', gap: '8px', flexWrap: 'wrap', marginBottom: '16px' }}>
+                            <span style={badgeStyle}>
+                                <FileIcon size={11} color={badgeIconColor} />
+                                PDF Support
                             </span>
-                            <span className="bg-amber-50 dark:bg-amber-900/40 text-amber-700 dark:text-amber-300 text-xs px-3 py-1 rounded-full border border-amber-100 dark:border-amber-800">
-                                🔍 検索可能
+                            <span style={badgeStyle}>
+                                <SearchIcon size={11} color={badgeIconColor} />
+                                Search
                             </span>
                         </div>
 
-                        <Link to="/archive" className="block w-full tap-target bg-amber-500 text-white text-center rounded-xl py-3 font-semibold hover-scale transition-smooth shadow-md active-press">
-                            アーカイブを開く →
+                        <Link to="/archive" className="flex items-center justify-center gap-2 w-full tap-target text-white rounded-xl py-3 font-semibold hover-scale transition-smooth shadow-md" style={{ fontFamily: "'Libre Baskerville', Baskerville, serif", backgroundColor: 'var(--color-primary)' }}>
+                            <span>Open Archive</span>
+                            <ArrowRightIcon size={16} color="white" />
+                        </Link>
+                    </div>
+
+                    {/* Stats Card */}
+                    <div className="mobile-card hover-lift animate-slideUp-delay-3 bg-gradient-to-br from-[var(--color-bg-card)] to-[var(--color-bg-secondary)]">
+                        <div className="w-20 h-20 mx-auto mb-4 rounded-2xl flex items-center justify-center" style={{ backgroundColor: 'rgba(0,112,74,0.08)' }}>
+                            <StatsIcon size={40} color="var(--color-primary)" />
+                        </div>
+
+                        <h2 className="text-xl font-bold mb-2 text-center" style={{ fontFamily: "'Libre Baskerville', Baskerville, serif", color: 'var(--color-primary)' }}>
+                            Stats
+                        </h2>
+
+                        <p className="text-sm mb-4 text-center" style={{ fontFamily: "'Libre Baskerville', Baskerville, serif", fontStyle: 'italic', color: 'var(--color-text-secondary)' }}>
+                            学習時間・連続日数<br />科目別グラフで可視化
+                        </p>
+
+                        <div style={{ display: 'flex', justifyContent: 'center', gap: '8px', flexWrap: 'wrap', marginBottom: '16px' }}>
+                            <span style={badgeStyle}>
+                                <StatsIcon size={11} color={badgeIconColor} />
+                                Charts
+                            </span>
+                            <span style={badgeStyle}>
+                                <TrendingUpIcon size={11} color={badgeIconColor} />
+                                Streak
+                            </span>
+                        </div>
+
+                        <Link to="/stats" className="flex items-center justify-center gap-2 w-full tap-target text-white rounded-xl py-3 font-semibold hover-scale transition-smooth shadow-md" style={{ fontFamily: "'Libre Baskerville', Baskerville, serif", backgroundColor: 'var(--color-primary)' }}>
+                            <span>Open Stats</span>
+                            <ArrowRightIcon size={16} color="white" />
                         </Link>
                     </div>
 
@@ -135,8 +201,8 @@ const Home = () => {
             </main>
 
             <div className="fixed bottom-16 md:bottom-0 left-0 w-full bg-transparent p-4 text-center pointer-events-none">
-                <p className="text-[var(--color-text-muted)] text-xs md:text-sm animate-fadeIn">
-                    © 2024 Hofu City Study Assist App.
+                <p className="text-xs md:text-sm animate-fadeIn" style={{ fontFamily: "'Libre Baskerville', Baskerville, serif", fontStyle: 'italic', color: 'var(--color-text-muted)' }}>
+                    © 2024 Hofu City Study Assist App
                 </p>
             </div>
         </div>

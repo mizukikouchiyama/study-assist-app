@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import { ArrowLeft, Plus, ChevronLeft, ChevronRight, Trash2, Calendar as CalendarIcon } from 'lucide-react';
+import { ArrowLeft, Plus, ChevronLeft, ChevronRight, Trash2, Calendar as CalendarIconLucide } from 'lucide-react';
+import { CalendarIcon, PlusIcon, FileIcon, TrashIcon } from './icons/Icons';
 import { Link } from 'react-router-dom';
 import { sendTestReminderNotification } from '../services/slackService';
 
@@ -93,21 +94,44 @@ const Calendar = () => {
 
     const getSubjectEmoji = (subject) => {
         const map = {
-            '数学': '📐', '英語': '🔤', '国語': '📖', '理科': '🔬', '社会': '🌍', 'その他': '📝'
+            '数学': '📐', '英語': '🔤', '国語': '📖', '理科': '🔬', '社会': '🌍', 'その他': ''
         };
-        return map[subject] || '📝';
+        return map[subject] || '';
     };
 
     return (
         <div className="min-h-screen bg-[var(--color-bg-primary)] pb-24 md:pb-8 animate-fadeIn smooth-scroll">
             {/* Header */}
-            <div className="mobile-padding border-b border-[var(--color-border)] md:border-none bg-[var(--color-bg-card)] md:bg-transparent sticky top-0 z-30">
-                <div className="max-w-7xl mx-auto">
-                    <Link to="/" className="inline-flex items-center text-[var(--color-text-secondary)] hover:text-[var(--color-primary)] transition-colors hover-scale tap-target">
-                        <ArrowLeft className="mr-2" size={20} /> <span className="text-sm md:text-base">ホームに戻る</span>
-                    </Link>
+            <header className="sticky top-0 z-40 shadow-sm bg-[var(--color-bg-card)] border-b border-[var(--color-border)]">
+                <div className="max-w-7xl mx-auto px-4 py-3 flex items-center justify-between">
+                    <div className="flex items-center">
+                        <Link to="/" className="mr-4 text-[var(--color-text-secondary)] hover:text-[var(--color-primary)] md:hidden">
+                            <ArrowLeft size={20} />
+                        </Link>
+                        <h1 style={{
+                            display: 'flex', alignItems: 'center', gap: '8px',
+                            fontFamily: "'Libre Baskerville', serif",
+                            color: 'var(--color-primary)', fontSize: '20px', fontWeight: '700'
+                        }}>
+                            <CalendarIcon size={22} color="var(--color-primary)" />
+                            Calendar
+                        </h1>
+                    </div>
+                    <button
+                        onClick={() => setShowAddModal(true)}
+                        style={{
+                            display: 'flex', alignItems: 'center', gap: '6px',
+                            padding: '8px 14px', borderRadius: '12px', border: 'none',
+                            backgroundColor: 'var(--color-primary)', color: 'white',
+                            fontFamily: "'Libre Baskerville', serif",
+                            fontSize: '12px', fontWeight: '700', cursor: 'pointer'
+                        }}
+                    >
+                        <PlusIcon size={13} color="white" />
+                        <span>Add Test</span>
+                    </button>
                 </div>
-            </div>
+            </header>
 
             <div className="max-w-7xl mx-auto mobile-padding">
                 <div className="calendar-header mb-6 flex flex-col md:flex-row justify-between items-center gap-4">
@@ -122,12 +146,6 @@ const Calendar = () => {
                             <ChevronRight size={24} />
                         </button>
                     </div>
-                    <button
-                        onClick={() => setShowAddModal(true)}
-                        className="w-full md:w-auto flex items-center justify-center px-6 py-3 bg-[var(--color-primary)] text-[var(--color-text-inverse)] rounded-full hover:bg-[var(--color-primary-dark)] transition-smooth shadow-md hover-scale active-press tap-target font-bold"
-                    >
-                        <Plus size={20} className="mr-2" /> テスト追加
-                    </button>
                 </div>
 
                 <div className="bg-[var(--color-bg-card)] rounded-2xl shadow-[var(--shadow-md)] p-2 md:p-6 mb-8 border border-[var(--color-border)] animate-slideUp overflow-hidden">
@@ -157,9 +175,25 @@ const Calendar = () => {
                                             </span>
                                             {testsOnDay.length > 0 && (
                                                 <div className="flex flex-col gap-1 mt-1">
-                                                    {testsOnDay.map(test => (
-                                                        <div key={test.id} className="text-[10px] md:text-xs bg-blue-100 dark:bg-blue-900/40 text-blue-700 dark:text-blue-300 rounded-md px-1 py-0.5 truncate border border-blue-200 dark:border-blue-800">
-                                                            {getSubjectEmoji(test.subject)} {test.name}
+                                                    {testsOnDay.map((test, idx) => (
+                                                        <div key={idx} style={{
+                                                            display: 'flex',
+                                                            alignItems: 'center',
+                                                            gap: '3px',
+                                                            fontSize: '10px',
+                                                            color: 'var(--color-primary)',
+                                                            backgroundColor: 'rgba(0,112,74,0.10)',
+                                                            border: '1px solid rgba(0,112,74,0.2)',
+                                                            borderRadius: '4px',
+                                                            padding: '2px 4px',
+                                                            overflow: 'hidden',
+                                                            whiteSpace: 'nowrap',
+                                                            textOverflow: 'ellipsis'
+                                                        }}>
+                                                            <FileIcon size={10} color="var(--color-primary)" />
+                                                            <span style={{ overflow: 'hidden', textOverflow: 'ellipsis' }}>
+                                                                {test.subject}
+                                                            </span>
                                                         </div>
                                                     ))}
                                                 </div>
@@ -178,16 +212,39 @@ const Calendar = () => {
                     </div>
                 </div>
 
-                <div className="bg-[#FFFFF0] dark:bg-[#2C2C20] rounded-2xl shadow-[var(--shadow-md)] p-4 md:p-6 border border-yellow-100 dark:border-yellow-900/30 animate-slideUp-delay-1 transition-colors">
-                    <h3 className="heading-responsive font-bold text-[var(--color-text-primary)] mb-4 flex items-center">
-                        <CalendarIcon className="mr-2 text-yellow-600 dark:text-yellow-400" /> 近日のテスト予定
+
+                <div style={{
+                    backgroundColor: 'var(--color-bg-secondary)',
+                    border: '1px solid var(--color-border)',
+                    borderRadius: '16px',
+                    padding: '20px'
+                }} className="shadow-[var(--shadow-md)] animate-slideUp-delay-1 transition-colors">
+                    <h3 style={{
+                        display: 'flex',
+                        alignItems: 'center',
+                        gap: '8px',
+                        fontFamily: "'Libre Baskerville', serif",
+                        color: 'var(--color-primary)',
+                        fontWeight: '700',
+                        marginBottom: '16px',
+                        fontSize: '18px'
+                    }}>
+                        <CalendarIcon size={18} color="var(--color-primary)" />
+                        近日のテスト予定
                     </h3>
 
                     {tests.filter(test => new Date(test.date) >= new Date()).length === 0 ? (
-                        <div className="text-center py-8 md:py-12 bg-[var(--color-bg-card)] rounded-xl border border-dashed border-yellow-200 dark:border-yellow-800">
-                            <div className="text-4xl md:text-6xl mb-4">📭</div>
+                        <div className="text-center py-8 md:py-12 bg-[var(--color-bg-card)] rounded-xl border border-dashed border-[var(--color-border)]">
+                            <div style={{
+                                opacity: 0.3,
+                                marginBottom: '16px',
+                                display: 'flex',
+                                justifyContent: 'center'
+                            }}>
+                                <CalendarIcon size={64} color="var(--color-primary)" />
+                            </div>
                             <p className="text-base md:text-lg font-bold text-[var(--color-text-secondary)]">テストがまだ登録されていません</p>
-                            <p className="text-xs md:text-sm text-[var(--color-text-muted)] mt-2">「＋テスト追加」で最初のテストを登録しましょう</p>
+                            <p className="text-xs md:text-sm text-[var(--color-text-muted)] mt-2">「Add Test」で最初のテストを登録しましょう</p>
                         </div>
                     ) : (
                         <div className="space-y-3">
@@ -197,14 +254,24 @@ const Calendar = () => {
                                 .slice(0, 5)
                                 .map(test => {
                                     const daysUntil = Math.ceil((new Date(test.date) - new Date()) / (1000 * 60 * 60 * 24));
-                                    const badge = getUrgencyBadge(daysUntil);
 
                                     return (
-                                        <div key={test.id} className={`flex flex-col md:flex-row md:items-center justify-between p-4 bg-[var(--color-bg-card)] rounded-xl shadow-sm hover:shadow-md transition-smooth border-l-4 ${badge.border.replace('border', 'border-l')} border-y border-r border-gray-100 dark:border-gray-800`}>
+                                        <div key={test.id} className="flex flex-col md:flex-row md:items-center justify-between p-4 bg-[var(--color-bg-card)] rounded-xl shadow-sm hover:shadow-md transition-smooth border border-[var(--color-border)]">
                                             <div className="flex-1">
                                                 <div className="flex items-center gap-2 mb-2">
-                                                    <span className={`text-xs font-bold px-2 py-1 rounded-full ${badge.bgCol} ${badge.textCol} border ${badge.border}`}>
-                                                        {badge.emoji} {badge.text}
+                                                    <span style={{
+                                                        display: 'inline-flex',
+                                                        alignItems: 'center',
+                                                        padding: '4px 10px',
+                                                        borderRadius: '999px',
+                                                        backgroundColor: 'rgba(0,112,74,0.10)',
+                                                        border: '1px solid rgba(0,112,74,0.2)',
+                                                        fontFamily: "'Libre Baskerville', serif",
+                                                        fontSize: '11px',
+                                                        fontWeight: '700',
+                                                        color: 'var(--color-primary)'
+                                                    }}>
+                                                        あと{daysUntil}日
                                                     </span>
                                                     <span className="text-xs text-[var(--color-text-muted)]">{test.date.replace(/-/g, '/')}</span>
                                                 </div>
@@ -212,13 +279,26 @@ const Calendar = () => {
                                                     <span className="mr-2 text-2xl">{getSubjectEmoji(test.subject)}</span>
                                                     {test.name}
                                                 </h4>
-                                                {test.range && <p className="text-sm text-[var(--color-text-secondary)] mt-1 ml-9">📝 範囲: {test.range}</p>}
+                                                {test.range && (
+                                                    <p className="text-sm text-[var(--color-text-secondary)] mt-1 ml-9 flex items-center gap-1">
+                                                        <FileIcon size={14} color="var(--color-primary)" />
+                                                        範囲: {test.range}
+                                                    </p>
+                                                )}
                                             </div>
                                             <button
                                                 onClick={() => handleDeleteTest(test.id)}
-                                                className="w-full md:w-auto mt-4 md:mt-0 p-3 text-gray-400 hover:text-red-500 hover:bg-red-50 dark:hover:bg-red-900/20 rounded-lg transition-colors flex items-center justify-center"
+                                                style={{
+                                                    padding: '8px',
+                                                    borderRadius: '10px',
+                                                    border: 'none',
+                                                    backgroundColor: 'var(--color-bg-secondary)',
+                                                    cursor: 'pointer'
+                                                }}
+                                                className="w-full md:w-auto mt-4 md:mt-0 flex items-center justify-center transition-colors hover:bg-red-50 dark:hover:bg-red-900/20"
                                             >
-                                                <Trash2 size={20} /> <span className="md:hidden ml-2">削除</span>
+                                                <TrashIcon size={14} color="var(--color-accent-coral)" />
+                                                <span className="md:hidden ml-2 text-[var(--color-accent-coral)]">削除</span>
                                             </button>
                                         </div>
                                     );
@@ -233,7 +313,10 @@ const Calendar = () => {
                 <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-end md:items-center justify-center z-50 animate-fadeIn" onClick={() => setShowAddModal(false)}>
                     <div className="bg-[var(--color-bg-card)] rounded-t-2xl md:rounded-2xl shadow-2xl w-full max-w-md p-6 border-t md:border border-[var(--color-border)] animate-slideUp md:animate-scaleIn max-h-[90vh] overflow-y-auto" onClick={(e) => e.stopPropagation()}>
                         <div className="w-12 h-1 bg-gray-300 dark:bg-gray-600 rounded-full mx-auto mb-6 md:hidden"></div>
-                        <h3 className="heading-responsive font-bold mb-6 text-[var(--color-text-primary)]">📝 新しいテストを追加</h3>
+                        <h3 className="heading-responsive font-bold mb-6 text-[var(--color-text-primary)] flex items-center gap-2">
+                            <FileIcon size={20} color="var(--color-primary)" />
+                            新しいテストを追加
+                        </h3>
                         <form onSubmit={(e) => { e.preventDefault(); handleAddTest(); }}>
                             <div className="space-y-4 mb-8">
                                 <div>

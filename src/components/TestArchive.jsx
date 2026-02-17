@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useMemo, useCallback } from 'react';
 import { Search, Plus, X, ArrowLeft } from 'lucide-react';
+import { ArchiveIcon, PlusIcon, UploadIcon } from './icons/Icons';
 import { Link } from 'react-router-dom';
 import { saveArchives, loadArchives } from '../services/storageService';
 import ArchiveCard from './ArchiveCard';
@@ -139,27 +140,39 @@ const TestArchive = () => {
     return (
         <div className="min-h-screen bg-[var(--color-bg-primary)] pb-24 md:pb-16 animate-fadeIn smooth-scroll">
             {/* Header */}
-            <div className="mobile-padding border-b border-[var(--color-border)] md:border-none bg-[var(--color-bg-card)] md:bg-transparent sticky top-0 z-30">
-                <div className="max-w-7xl mx-auto">
-                    <Link to="/" className="inline-flex items-center text-[var(--color-text-secondary)] hover:text-[var(--color-primary)] transition-colors hover-scale tap-target">
-                        <ArrowLeft className="mr-2" size={20} /> <span className="text-sm md:text-base">ホームに戻る</span>
-                    </Link>
+            <header className="sticky top-0 z-40 shadow-sm bg-[var(--color-bg-card)] border-b border-[var(--color-border)]">
+                <div className="max-w-7xl mx-auto px-4 py-3 flex items-center justify-between">
+                    <div className="flex items-center">
+                        <Link to="/" className="mr-4 text-[var(--color-text-secondary)] hover:text-[var(--color-primary)] md:hidden">
+                            <ArrowLeft size={20} />
+                        </Link>
+                        <h1 style={{
+                            display: 'flex', alignItems: 'center', gap: '8px',
+                            fontFamily: "'Libre Baskerville', serif",
+                            color: 'var(--color-primary)', fontSize: '20px', fontWeight: '700'
+                        }}>
+                            <ArchiveIcon size={22} color="var(--color-primary)" />
+                            Archive
+                        </h1>
+                    </div>
+                    <button
+                        onClick={() => setShowModal(true)}
+                        style={{
+                            display: 'flex', alignItems: 'center', gap: '6px',
+                            padding: '8px 14px', borderRadius: '12px', border: 'none',
+                            backgroundColor: 'var(--color-primary)', color: 'white',
+                            fontFamily: "'Libre Baskerville', serif",
+                            fontSize: '12px', fontWeight: '700', cursor: 'pointer'
+                        }}
+                    >
+                        <PlusIcon size={13} color="white" />
+                        <span>New Archive</span>
+                    </button>
                 </div>
-            </div>
+            </header>
 
             <div className="max-w-7xl mx-auto mobile-padding">
                 <div className="bg-[var(--color-bg-card)] rounded-2xl shadow-sm p-4 md:p-6 mb-8 border border-[var(--color-border)] animate-slideUp">
-                    <div className="flex flex-col md:flex-row justify-between items-center mb-6 gap-4">
-                        <h2 className="heading-responsive font-bold text-[var(--color-primary)] w-full md:w-auto text-center md:text-left flex items-center justify-center md:justify-start">
-                            <span className="text-3xl mr-2">🗂</span> テストアーカイブ
-                        </h2>
-                        <button
-                            onClick={() => setShowModal(true)}
-                            className="w-full md:w-auto flex items-center justify-center px-6 py-3 bg-[var(--color-primary)] text-[var(--color-text-inverse)] rounded-full hover:bg-[var(--color-primary-dark)] transition-smooth shadow-md hover-scale active-press tap-target font-bold"
-                        >
-                            <Plus size={20} className="mr-2" /> 新規アーカイブ
-                        </button>
-                    </div>
 
                     {/* フィルター */}
                     <div className="grid grid-cols-1 md:grid-cols-4 gap-4 bg-[var(--color-bg-secondary)] p-4 rounded-xl border border-[var(--color-border)]">
@@ -200,13 +213,22 @@ const TestArchive = () => {
                     {/* Empty State */}
                     {filteredArchives.length === 0 && (
                         <div className="col-span-full text-center py-16 bg-[var(--color-bg-card)] rounded-2xl border border-dashed border-[var(--color-border)]">
-                            <div className="text-6xl mb-4">📂</div>
+                            <div style={{ opacity: 0.3, marginBottom: '16px', display: 'flex', justifyContent: 'center' }}>
+                                <ArchiveIcon size={64} color="var(--color-primary)" />
+                            </div>
                             <p className="text-lg font-bold text-[var(--color-text-secondary)]">アーカイブはまだ空です</p>
                             <p className="text-sm text-[var(--color-text-muted)] mt-2 mb-6">テストのPDFや画像をアップロードして整理しましょう</p>
                             <button
                                 onClick={() => setShowModal(true)}
-                                className="px-6 py-2 bg-[var(--color-bg-secondary)] text-[var(--color-primary)] font-bold rounded-full hover:bg-[var(--color-bg-hover)] transition-colors"
+                                style={{
+                                    display: 'inline-flex', alignItems: 'center', gap: '6px',
+                                    padding: '10px 20px', borderRadius: '12px', border: 'none',
+                                    backgroundColor: 'var(--color-primary)', color: 'white',
+                                    fontFamily: "'Libre Baskerville', serif",
+                                    fontSize: '13px', fontWeight: '700', cursor: 'pointer'
+                                }}
                             >
+                                <UploadIcon size={15} color="white" />
                                 ファイルをアップロード
                             </button>
                         </div>

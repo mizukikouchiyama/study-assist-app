@@ -9,6 +9,7 @@ const Home = lazy(() => import('./components/Home'));
 const PomodoroTimer = lazy(() => import('./components/PomodoroTimer'));
 const Calendar = lazy(() => import('./components/Calendar'));
 const TestArchive = lazy(() => import('./components/TestArchive'));
+const Stats = lazy(() => import('./components/Stats'));
 
 function App() {
   return (
@@ -22,6 +23,7 @@ function App() {
                 <Route path="/timer" element={<PomodoroTimer />} />
                 <Route path="/calendar" element={<Calendar />} />
                 <Route path="/archive" element={<TestArchive />} />
+                <Route path="/stats" element={<Stats />} />
               </Routes>
             </Suspense>
           </div>

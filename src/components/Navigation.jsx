@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { NavLink, useLocation } from 'react-router-dom';
-import { Home, Timer, Calendar, Archive } from 'lucide-react';
+import { HomeIcon, TimerIcon, CalendarIcon, ArchiveIcon, StatsIcon } from './icons/Icons';
 import { useTimer } from '../context/TimerContext';
 
 const Navigation = () => {
@@ -8,6 +8,14 @@ const Navigation = () => {
     const [testBadge, setTestBadge] = useState(null);
     const [archiveCount, setArchiveCount] = useState(0);
     const location = useLocation();
+
+    const navItems = [
+        { path: '/', icon: HomeIcon, label: 'Home' },
+        { path: '/timer', icon: TimerIcon, label: 'Timer' },
+        { path: '/calendar', icon: CalendarIcon, label: 'Calendar' },
+        { path: '/archive', icon: ArchiveIcon, label: 'Archive' },
+        { path: '/stats', icon: StatsIcon, label: 'Stats' },
+    ];
 
     // バッジ情報の更新（ロケーション変更時やマウント時）
     useEffect(() => {
@@ -36,41 +44,69 @@ const Navigation = () => {
     return (
         <nav className="fixed bottom-0 left-0 w-full bg-[var(--color-bg-card)]/90 backdrop-blur-md border-t border-[var(--color-border)] pb-safe-area pb-2 pt-2 px-4 shadow-[0_-4px_6px_-1px_rgba(0,0,0,0.05)] z-50 md:hidden animate-slideUp transition-smooth">
             <div className="flex justify-around items-center max-w-md mx-auto">
+                {navItems.map((item) => {
+                    const Icon = item.icon;
+                    return (
+                        <NavLink
+                            key={item.path}
+                            to={item.path}
+                            className={({ isActive: isNavActive }) =>
+                                `flex flex-col items-center justify-center flex-1 h-full transition-all duration-200 relative`
+                            }
+                        >
+                            {({ isActive: isNavActive }) => {
+                                const iconColor = isNavActive ? 'var(--color-primary)' : 'var(--color-text-muted)';
+                                const showTimerPulse = item.path === '/timer' && isActive;
+                                const showCalendarBadge = item.path === '/calendar' && testBadge;
+                                const showArchiveBadge = item.path === '/archive' && archiveCount > 0;
 
-                <NavLink to="/" className={({ isActive }) => `flex flex-col items-center p-2 rounded-lg transition-colors ${isActive ? 'text-[var(--color-primary)]' : 'text-[var(--color-text-muted)] hover:text-[var(--color-text-secondary)]'}`}>
-                    <Home size={24} />
-                    <span className="text-[10px] font-medium mt-1">ホーム</span>
-                </NavLink>
+                                return (
+                                    <>
+                                        <div
+                                            className="p-1.5 rounded-xl mb-0.5 transition-all duration-200 relative"
+                                            style={{
+                                                backgroundColor: isNavActive ? 'rgba(0,112,74,0.12)' : 'transparent'
+                                            }}
+                                        >
+                                            <Icon size={22} color={iconColor} />
 
-                <NavLink to="/timer" className={({ isActive: isNavActive }) => `flex flex-col items-center p-2 rounded-lg transition-colors relative ${isNavActive ? 'text-[var(--color-primary)]' : 'text-[var(--color-text-muted)] hover:text-[var(--color-text-secondary)]'}`}>
-                    <div className={`relative ${isActive ? 'animate-pulse text-[var(--color-accent-coral)]' : ''}`}>
-                        <Timer size={24} />
-                        {isActive && <span className="absolute -top-1 -right-1 flex h-3 w-3">
-                            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[var(--color-accent-coral)] opacity-75"></span>
-                            <span className="relative inline-flex rounded-full h-3 w-3 bg-[var(--color-accent-coral)]"></span>
-                        </span>}
-                    </div>
-                    <span className="text-[10px] font-medium mt-1">タイマー</span>
-                </NavLink>
+                                            {/* Timer Active Indicator */}
+                                            {showTimerPulse && (
+                                                <span className="absolute -top-1 -right-1 flex h-3 w-3">
+                                                    <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[var(--color-accent-coral)] opacity-75"></span>
+                                                    <span className="relative inline-flex rounded-full h-3 w-3 bg-[var(--color-accent-coral)]"></span>
+                                                </span>
+                                            )}
 
-                <NavLink to="/calendar" className={({ isActive }) => `flex flex-col items-center p-2 rounded-lg transition-colors relative ${isActive ? 'text-[var(--color-primary)]' : 'text-[var(--color-text-muted)] hover:text-[var(--color-text-secondary)]'}`}>
-                    <div className="relative">
-                        <Calendar size={24} />
-                        {testBadge && <span className="absolute -top-1 -right-1 h-3 w-3 bg-[var(--color-error)] rounded-full border-2 border-[var(--color-bg-card)] animate-bounce"></span>}
-                    </div>
-                    <span className="text-[10px] font-medium mt-1">カレンダー</span>
-                </NavLink>
+                                            {/* Calendar Urgent Badge */}
+                                            {showCalendarBadge && (
+                                                <span className="absolute -top-1 -right-1 h-3 w-3 bg-[var(--color-error)] rounded-full border-2 border-[var(--color-bg-card)] animate-bounce"></span>
+                                            )}
 
-                <NavLink to="/archive" className={({ isActive }) => `flex flex-col items-center p-2 rounded-lg transition-colors relative ${isActive ? 'text-[var(--color-primary)]' : 'text-[var(--color-text-muted)] hover:text-[var(--color-text-secondary)]'}`}>
-                    <div className="relative">
-                        <Archive size={24} />
-                        {archiveCount > 0 && <span className="absolute -top-2 -right-2 bg-[var(--color-accent-gold)] text-white text-[9px] font-bold h-4 w-4 flex items-center justify-center rounded-full border border-[var(--color-bg-card)]">
-                            {archiveCount > 9 ? '9+' : archiveCount}
-                        </span>}
-                    </div>
-                    <span className="text-[10px] font-medium mt-1">アーカイブ</span>
-                </NavLink>
-
+                                            {/* Archive Count Badge */}
+                                            {showArchiveBadge && (
+                                                <span className="absolute -top-2 -right-2 bg-[var(--color-accent-gold)] text-white text-[9px] font-bold h-4 w-4 flex items-center justify-center rounded-full border border-[var(--color-bg-card)]">
+                                                    {archiveCount > 9 ? '9+' : archiveCount}
+                                                </span>
+                                            )}
+                                        </div>
+                                        <span
+                                            style={{
+                                                fontFamily: "'Libre Baskerville', Baskerville, serif",
+                                                fontSize: '9.5px',
+                                                fontWeight: isNavActive ? '700' : '400',
+                                                letterSpacing: '0.03em',
+                                                color: iconColor
+                                            }}
+                                        >
+                                            {item.label}
+                                        </span>
+                                    </>
+                                );
+                            }}
+                        </NavLink>
+                    );
+                })}
             </div>
         </nav>
     );
