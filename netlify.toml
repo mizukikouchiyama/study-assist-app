@@ -1,0 +1,21 @@
+[build]
+  command = "npm run build"
+  publish = "dist"
+
+[build.environment]
+  NODE_VERSION = "18"
+
+# React Router対応（全パスをindex.htmlに転送）
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200
+
+# Slackプロキシ設定
+[[redirects]]
+  from = "/api/slack/*"
+  to = "https://hooks.slack.com/services/:splat"
+  status = 200
+  force = true
+  [redirects.headers]
+    X-From = "Netlify"
