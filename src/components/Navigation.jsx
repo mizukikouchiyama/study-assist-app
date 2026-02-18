@@ -42,7 +42,7 @@ const Navigation = () => {
     }, [location]);
 
     return (
-        <nav style={{paddingBottom: "env(safe-area-inset-bottom)"}} className="fixed bottom-0 left-0 w-full bg-[var(--color-bg-card)]/90 backdrop-blur-md border-t border-[var(--color-border)] pb-safe-area pb-2 pt-2 px-4 shadow-[0_-4px_6px_-1px_rgba(0,0,0,0.05)] z-50 md:hidden animate-slideUp transition-smooth">
+        <nav className="fixed bottom-0 left-0 w-full bg-[var(--color-bg-card)]/90 backdrop-blur-md border-t border-[var(--color-border)] pb-safe-area pb-2 pt-2 px-4 shadow-[0_-4px_6px_-1px_rgba(0,0,0,0.05)] z-50 md:hidden animate-slideUp transition-smooth">
             <div className="flex justify-around items-center max-w-md mx-auto">
                 {navItems.map((item) => {
                     const Icon = item.icon;
