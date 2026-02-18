@@ -333,8 +333,3 @@
     @apply bg-[var(--color-bg-card)] p-6 rounded-xl shadow-[var(--shadow-md)] h-full border border-[var(--color-border)];
   }
 }
-
-/* iOS Safe Area対応 */
-nav.fixed {
-  padding-bottom: max(env(safe-area-inset-bottom), 0.5rem);
-}
