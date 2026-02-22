@@ -105,6 +105,7 @@
     background-color: var(--color-bg-primary);
     color: var(--color-text-primary);
     font-family: 'Libre Baskerville', Baskerville, serif;
+    padding-top: env(safe-area-inset-top, 0px);
   }
 
   /* ダークモード切替時のスムーズなトランジション */
