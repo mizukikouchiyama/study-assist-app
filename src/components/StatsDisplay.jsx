@@ -1,6 +1,6 @@
 import React, { useMemo } from 'react';
 import { statsService } from '../services/statsService';
-import { TimerIcon, ClockIcon, TrendingUpIcon, StatsIcon, CalendarIcon } from './icons/Icons';
+import { TimerIcon, ClockIcon, TrendingUpIcon, StatsIcon, CalendarIcon, TrophyIcon, MedalIcon, BadgeIcon } from './icons/Icons';
 
 const StatsDisplay = () => {
     const todayStats = useMemo(() => statsService.getTodayStats(), []);
@@ -162,17 +162,28 @@ const StatsDisplay = () => {
                 subjectStats.length > 0 && (
                     <div className="bg-[var(--color-bg-card)] rounded-xl shadow-sm p-4 border border-[var(--color-border)]">
                         <h3 className="font-bold mb-3 flex items-center gap-2 text-[var(--color-text-primary)]">
-                            <span>🏆</span>
+                            <TrophyIcon size={20} color="var(--color-primary)" />
                             <span>科目別学習時間</span>
                         </h3>
                         <div className="space-y-2">
                             {subjectStats.slice(0, 5).map((subject, index) => {
-                                const medals = ['🥇', '🥈', '🥉', '4️⃣', '5️⃣'];
+                                const getMedalIcon = (i) => {
+                                    switch (i) {
+                                        case 0: return <MedalIcon size={24} color="#FFD700" text="1" />;
+                                        case 1: return <MedalIcon size={24} color="#C0C0C0" text="2" />;
+                                        case 2: return <MedalIcon size={24} color="#CD7F32" text="3" />;
+                                        case 3: return <BadgeIcon size={24} color="var(--color-text-muted)" text="4" />;
+                                        case 4: return <BadgeIcon size={24} color="var(--color-text-muted)" text="5" />;
+                                        default: return null;
+                                    }
+                                };
                                 const maxSubjectCount = subjectStats[0].count;
                                 return (
                                     <div key={subject.name}
                                         className="flex items-center gap-3">
-                                        <span className="text-lg w-6">{medals[index]}</span>
+                                        <div className="flex items-center justify-center w-8">
+                                            {getMedalIcon(index)}
+                                        </div>
                                         <div className="flex-1">
                                             <div className="flex justify-between text-sm mb-1">
                                                 <span className="text-[var(--color-text-primary)]">

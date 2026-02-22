@@ -1,5 +1,6 @@
 import React, { memo } from 'react';
 import { FileText, Trash2, Download } from 'lucide-react';
+import { CalendarIcon } from './icons/Icons';
 
 const ArchiveCard = memo(({ archive, onDownload, onDelete, getSubjectColor, index }) => {
     return (
@@ -30,7 +31,9 @@ const ArchiveCard = memo(({ archive, onDownload, onDelete, getSubjectColor, inde
             </div>
 
             <div className="mb-4">
-                <p className="text-xs text-[var(--color-text-muted)] mb-2">📅 {archive.date.replace(/-/g, '/')}</p>
+                <p className="text-xs text-[var(--color-text-muted)] mb-2 flex items-center gap-1">
+                    <CalendarIcon size={12} color="currentColor" /> {archive.date.replace(/-/g, '/')}
+                </p>
                 <div className="flex flex-wrap gap-2">
                     {archive.tags.map((tag, idx) => (
                         <span key={idx} className="bg-[var(--color-bg-secondary)] text-[var(--color-text-secondary)] text-[10px] px-2 py-1 rounded border border-[var(--color-border)]">
