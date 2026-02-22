@@ -319,14 +319,16 @@ const Calendar = () => {
                         className="bg-[var(--color-bg-card)] shadow-2xl w-full max-w-md mx-auto md:relative border-t md:border border-[var(--color-border)] animate-slideUp md:animate-scaleIn"
                         style={{
                             position: 'fixed',
-                            bottom: 0,
+                            bottom: '60px',
                             left: 0,
                             right: 0,
-                            maxHeight: '85vh',
+                            maxHeight: 'calc(85vh - 60px)',
                             display: 'flex',
                             flexDirection: 'column',
                             borderRadius: '20px 20px 0 0',
-                            overflow: 'hidden'
+                            backgroundColor: 'white',
+                            overflow: 'hidden',
+                            zIndex: 50
                         }}
                         onClick={(e) => e.stopPropagation()}
                     >
