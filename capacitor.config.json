@@ -1,0 +1,8 @@
+{
+  "appId": "com.hofu.studyassist",
+  "appName": "Study Assist",
+  "webDir": "dist",
+  "ios": {
+    "contentInset": "always"
+  }
+}
