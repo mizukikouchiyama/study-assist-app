@@ -315,14 +315,35 @@ const Calendar = () => {
             {/* モーダル */}
             {showAddModal && (
                 <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-end md:items-center justify-center z-50 animate-fadeIn" onClick={() => setShowAddModal(false)}>
-                    <div className="bg-[var(--color-bg-card)] rounded-t-2xl md:rounded-2xl shadow-2xl w-full max-w-md p-6 border-t md:border border-[var(--color-border)] animate-slideUp md:animate-scaleIn max-h-[90vh] overflow-y-auto" onClick={(e) => e.stopPropagation()}>
-                        <div className="w-12 h-1 bg-gray-300 dark:bg-gray-600 rounded-full mx-auto mb-6 md:hidden"></div>
-                        <h3 className="heading-responsive font-bold mb-6 text-[var(--color-text-primary)] flex items-center gap-2">
-                            <FileIcon size={20} color="var(--color-primary)" />
-                            新しいテストを追加
-                        </h3>
-                        <form onSubmit={(e) => { e.preventDefault(); handleAddTest(); }}>
-                            <div className="space-y-4 mb-8">
+                    <div
+                        className="bg-[var(--color-bg-card)] shadow-2xl w-full max-w-md mx-auto md:relative border-t md:border border-[var(--color-border)] animate-slideUp md:animate-scaleIn"
+                        style={{
+                            position: 'fixed',
+                            bottom: 0,
+                            left: 0,
+                            right: 0,
+                            maxHeight: '85vh',
+                            display: 'flex',
+                            flexDirection: 'column',
+                            borderRadius: '20px 20px 0 0',
+                            overflow: 'hidden'
+                        }}
+                        onClick={(e) => e.stopPropagation()}
+                    >
+                        <div style={{ padding: '16px 16px 0 16px' }}>
+                            <div className="w-12 h-1 bg-gray-300 dark:bg-gray-600 rounded-full mx-auto mb-4 md:hidden"></div>
+                            <h3 className="heading-responsive font-bold mb-4 text-[var(--color-text-primary)] flex items-center gap-2">
+                                <FileIcon size={20} color="var(--color-primary)" />
+                                新しいテストを追加
+                            </h3>
+                        </div>
+                        <form onSubmit={(e) => { e.preventDefault(); handleAddTest(); }} style={{ display: 'flex', flexDirection: 'column', flex: 1, minHeight: 0 }}>
+                            <div className="space-y-4" style={{
+                                flex: 1,
+                                overflowY: 'auto',
+                                WebkitOverflowScrolling: 'touch',
+                                padding: '16px'
+                            }}>
                                 <div>
                                     <label className="block text-sm font-bold text-[var(--color-text-secondary)] mb-1">テスト名 <span className="text-red-500">*</span></label>
                                     <input
@@ -373,7 +394,12 @@ const Calendar = () => {
                                     />
                                 </div>
                             </div>
-                            <div className="flex gap-4">
+                            <div className="flex gap-4" style={{
+                                padding: '16px',
+                                paddingBottom: 'env(safe-area-inset-bottom, 16px)',
+                                borderTop: '1px solid #eee',
+                                backgroundColor: 'var(--color-bg-card)'
+                            }}>
                                 <button type="button" onClick={() => setShowAddModal(false)} className="flex-1 tap-target py-3 bg-[var(--color-bg-hover)] text-[var(--color-text-secondary)] rounded-xl font-bold hover:bg-[var(--color-border)] transition-colors">
                                     キャンセル
                                 </button>

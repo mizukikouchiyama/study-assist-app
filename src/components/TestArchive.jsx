@@ -240,21 +240,38 @@ const TestArchive = () => {
             {showModal && (
                 <div className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-end md:items-center justify-center z-50 animate-fadeIn" onClick={() => setShowModal(false)}>
                     <div
-                        className="bg-[var(--color-bg-card)] rounded-t-2xl md:rounded-2xl shadow-2xl w-full max-w-lg p-6 border-t md:border border-[var(--color-border)] animate-slideUp md:animate-scaleIn flex flex-col"
-                        style={{ maxHeight: '85vh' }}
+                        className="bg-[var(--color-bg-card)] shadow-2xl w-full max-w-lg mx-auto md:relative border-t md:border border-[var(--color-border)] animate-slideUp md:animate-scaleIn"
+                        style={{
+                            position: 'fixed',
+                            bottom: 0,
+                            left: 0,
+                            right: 0,
+                            maxHeight: '85vh',
+                            display: 'flex',
+                            flexDirection: 'column',
+                            borderRadius: '20px 20px 0 0',
+                            overflow: 'hidden'
+                        }}
                         onClick={e => e.stopPropagation()}
                     >
-                        <div className="w-12 h-1 bg-gray-300 dark:bg-gray-600 rounded-full mx-auto mb-6 md:hidden flex-shrink-0"></div>
-                        <div className="flex justify-between items-center mb-6 flex-shrink-0">
-                            <h3 className="text-xl font-bold text-[var(--color-text-primary)]">新規アーカイブ追加</h3>
-                            <button onClick={() => setShowModal(false)} className="text-[var(--color-text-muted)] hover:text-[var(--color-text-primary)] transition-colors hidden md:block">
-                                <X size={24} />
-                            </button>
+                        <div style={{ padding: '16px 16px 0 16px' }}>
+                            <div className="w-12 h-1 bg-gray-300 dark:bg-gray-600 rounded-full mx-auto mb-4 md:hidden"></div>
+                            <div className="flex justify-between items-center mb-4">
+                                <h3 className="text-xl font-bold text-[var(--color-text-primary)]">新規アーカイブ追加</h3>
+                                <button onClick={() => setShowModal(false)} className="text-[var(--color-text-muted)] hover:text-[var(--color-text-primary)] transition-colors hidden md:block">
+                                    <X size={24} />
+                                </button>
+                            </div>
                         </div>
 
-                        <form onSubmit={handleSubmit} className="flex flex-col flex-1 min-h-0">
+                        <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', flex: 1, minHeight: 0 }}>
                             {/* Scrollable Form Content */}
-                            <div className="space-y-6 overflow-y-auto flex-1 min-h-0 pr-2 pb-4" style={{ WebkitOverflowScrolling: 'touch' }}>
+                            <div className="space-y-6" style={{
+                                flex: 1,
+                                overflowY: 'auto',
+                                WebkitOverflowScrolling: 'touch',
+                                padding: '16px'
+                            }}>
                                 {/* Drag & Drop Visual Area */}
                                 <div className="relative group">
                                     <input
@@ -335,7 +352,12 @@ const TestArchive = () => {
                             </div>
 
                             {/* Fixed Action Buttons */}
-                            <div className="pt-4 flex gap-4 flex-shrink-0 border-t border-[var(--color-border)] mt-auto bg-[var(--color-bg-card)]">
+                            <div className="flex gap-4" style={{
+                                padding: '16px',
+                                paddingBottom: 'env(safe-area-inset-bottom, 16px)',
+                                borderTop: '1px solid #eee',
+                                backgroundColor: 'var(--color-bg-card)'
+                            }}>
                                 <button
                                     type="button"
                                     onClick={() => setShowModal(false)}
@@ -354,9 +376,9 @@ const TestArchive = () => {
                             </div>
                         </form>
                     </div>
-                </div>
+                </div >
             )}
-        </div>
+        </div >
     );
 };
 
