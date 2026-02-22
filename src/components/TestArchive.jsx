@@ -240,109 +240,113 @@ const TestArchive = () => {
             {showModal && (
                 <div className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-end md:items-center justify-center z-50 animate-fadeIn" onClick={() => setShowModal(false)}>
                     <div
-                        className="bg-[var(--color-bg-card)] rounded-t-2xl md:rounded-2xl shadow-2xl w-full max-w-lg p-6 border-t md:border border-[var(--color-border)] animate-slideUp md:animate-scaleIn overflow-y-auto"
-                        style={{ maxHeight: '90vh', WebkitOverflowScrolling: 'touch' }}
+                        className="bg-[var(--color-bg-card)] rounded-t-2xl md:rounded-2xl shadow-2xl w-full max-w-lg p-6 border-t md:border border-[var(--color-border)] animate-slideUp md:animate-scaleIn flex flex-col"
+                        style={{ maxHeight: '85vh' }}
                         onClick={e => e.stopPropagation()}
                     >
-                        <div className="w-12 h-1 bg-gray-300 dark:bg-gray-600 rounded-full mx-auto mb-6 md:hidden"></div>
-                        <div className="flex justify-between items-center mb-6">
+                        <div className="w-12 h-1 bg-gray-300 dark:bg-gray-600 rounded-full mx-auto mb-6 md:hidden flex-shrink-0"></div>
+                        <div className="flex justify-between items-center mb-6 flex-shrink-0">
                             <h3 className="text-xl font-bold text-[var(--color-text-primary)]">新規アーカイブ追加</h3>
                             <button onClick={() => setShowModal(false)} className="text-[var(--color-text-muted)] hover:text-[var(--color-text-primary)] transition-colors hidden md:block">
                                 <X size={24} />
                             </button>
                         </div>
 
-                        <form onSubmit={handleSubmit} className="space-y-6">
-                            {/* Drag & Drop Visual Area */}
-                            <div className="relative group">
-                                <input
-                                    type="file"
-                                    accept=".pdf,image/*"
-                                    onChange={handleFileChange}
-                                    className="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10"
-                                    required
-                                />
-                                <div className={`border-2 border-dashed ${selectedFile ? 'border-[var(--color-primary)] bg-green-50 dark:bg-green-900/10' : 'border-[var(--color-border)] hover:border-[var(--color-primary)] hover:bg-[var(--color-bg-hover)]'} rounded-2xl p-8 text-center transition-all`}>
-                                    <div className="mb-4 flex justify-center">
-                                        {selectedFile ? <FileIcon size={48} color="var(--color-primary)" /> : <UploadIcon size={48} color="var(--color-text-muted)" />}
+                        <form onSubmit={handleSubmit} className="flex flex-col flex-1 min-h-0">
+                            {/* Scrollable Form Content */}
+                            <div className="space-y-6 overflow-y-auto flex-1 min-h-0 pr-2 pb-4" style={{ WebkitOverflowScrolling: 'touch' }}>
+                                {/* Drag & Drop Visual Area */}
+                                <div className="relative group">
+                                    <input
+                                        type="file"
+                                        accept=".pdf,image/*"
+                                        onChange={handleFileChange}
+                                        className="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10"
+                                        required
+                                    />
+                                    <div className={`border-2 border-dashed ${selectedFile ? 'border-[var(--color-primary)] bg-green-50 dark:bg-green-900/10' : 'border-[var(--color-border)] hover:border-[var(--color-primary)] hover:bg-[var(--color-bg-hover)]'} rounded-2xl p-8 text-center transition-all`}>
+                                        <div className="mb-4 flex justify-center">
+                                            {selectedFile ? <FileIcon size={48} color="var(--color-primary)" /> : <UploadIcon size={48} color="var(--color-text-muted)" />}
+                                        </div>
+                                        <p className={`text-lg font-bold ${selectedFile ? 'text-[var(--color-primary)]' : 'text-gray-600 dark:text-gray-400'}`}>
+                                            {selectedFile ? selectedFile.name : 'ファイルをドロップ'}
+                                        </p>
+                                        <p className="text-xs text-[var(--color-text-muted)] mt-2">PDF・画像（最大5MB）</p>
                                     </div>
-                                    <p className={`text-lg font-bold ${selectedFile ? 'text-[var(--color-primary)]' : 'text-gray-600 dark:text-gray-400'}`}>
-                                        {selectedFile ? selectedFile.name : 'ファイルをドロップ'}
-                                    </p>
-                                    <p className="text-xs text-[var(--color-text-muted)] mt-2">PDF・画像（最大5MB）</p>
                                 </div>
-                            </div>
 
-                            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                    <div>
+                                        <label className="block text-sm font-bold text-[var(--color-text-secondary)] mb-2">学校名</label>
+                                        <input
+                                            type="text"
+                                            value={formData.school}
+                                            onChange={e => setFormData({ ...formData, school: e.target.value })}
+                                            className="w-full border border-[var(--color-border)] rounded-xl p-3 focus:ring-2 focus:ring-[var(--color-primary)] outline-none bg-[var(--color-bg-secondary)] focus:bg-[var(--color-bg-card)] text-[var(--color-text-primary)]"
+                                            placeholder="例: 防府中学校"
+                                            required
+                                        />
+                                    </div>
+                                    <div>
+                                        <label className="block text-sm font-bold text-[var(--color-text-secondary)] mb-2">実施日</label>
+                                        <input
+                                            type="date"
+                                            value={formData.date}
+                                            onChange={e => setFormData({ ...formData, date: e.target.value })}
+                                            className="w-full border border-[var(--color-border)] rounded-xl p-3 focus:ring-2 focus:ring-[var(--color-primary)] outline-none bg-[var(--color-bg-secondary)] focus:bg-[var(--color-bg-card)] text-[var(--color-text-primary)]"
+                                            required
+                                        />
+                                    </div>
+                                </div>
+
+                                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                    <div>
+                                        <label className="block text-sm font-bold text-[var(--color-text-secondary)] mb-2">科目</label>
+                                        <select
+                                            value={formData.subject}
+                                            onChange={e => setFormData({ ...formData, subject: e.target.value })}
+                                            className="w-full border border-[var(--color-border)] rounded-xl p-3 focus:ring-2 focus:ring-[var(--color-primary)] outline-none bg-[var(--color-bg-secondary)] focus:bg-[var(--color-bg-card)] text-[var(--color-text-primary)]"
+                                        >
+                                            {subjects.map(s => <option key={s} value={s}>{s}</option>)}
+                                        </select>
+                                    </div>
+                                    <div>
+                                        <label className="block text-sm font-bold text-[var(--color-text-secondary)] mb-2">テスト種類</label>
+                                        <select
+                                            value={formData.testType}
+                                            onChange={e => setFormData({ ...formData, testType: e.target.value })}
+                                            className="w-full border border-[var(--color-border)] rounded-xl p-3 focus:ring-2 focus:ring-[var(--color-primary)] outline-none bg-[var(--color-bg-secondary)] focus:bg-[var(--color-bg-card)] text-[var(--color-text-primary)]"
+                                        >
+                                            {testTypes.map(t => <option key={t} value={t}>{t}</option>)}
+                                        </select>
+                                    </div>
+                                </div>
+
                                 <div>
-                                    <label className="block text-sm font-bold text-[var(--color-text-secondary)] mb-2">学校名</label>
+                                    <label className="block text-sm font-bold text-[var(--color-text-secondary)] mb-2">タグ (カンマ区切り)</label>
                                     <input
                                         type="text"
-                                        value={formData.school}
-                                        onChange={e => setFormData({ ...formData, school: e.target.value })}
+                                        value={formData.tags}
+                                        onChange={e => setFormData({ ...formData, tags: e.target.value })}
                                         className="w-full border border-[var(--color-border)] rounded-xl p-3 focus:ring-2 focus:ring-[var(--color-primary)] outline-none bg-[var(--color-bg-secondary)] focus:bg-[var(--color-bg-card)] text-[var(--color-text-primary)]"
-                                        placeholder="例: 防府中学校"
-                                        required
-                                    />
-                                </div>
-                                <div>
-                                    <label className="block text-sm font-bold text-[var(--color-text-secondary)] mb-2">実施日</label>
-                                    <input
-                                        type="date"
-                                        value={formData.date}
-                                        onChange={e => setFormData({ ...formData, date: e.target.value })}
-                                        className="w-full border border-[var(--color-border)] rounded-xl p-3 focus:ring-2 focus:ring-[var(--color-primary)] outline-none bg-[var(--color-bg-secondary)] focus:bg-[var(--color-bg-card)] text-[var(--color-text-primary)]"
-                                        required
+                                        placeholder="例: 1学期, 難問"
                                     />
                                 </div>
                             </div>
 
-                            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                                <div>
-                                    <label className="block text-sm font-bold text-[var(--color-text-secondary)] mb-2">科目</label>
-                                    <select
-                                        value={formData.subject}
-                                        onChange={e => setFormData({ ...formData, subject: e.target.value })}
-                                        className="w-full border border-[var(--color-border)] rounded-xl p-3 focus:ring-2 focus:ring-[var(--color-primary)] outline-none bg-[var(--color-bg-secondary)] focus:bg-[var(--color-bg-card)] text-[var(--color-text-primary)]"
-                                    >
-                                        {subjects.map(s => <option key={s} value={s}>{s}</option>)}
-                                    </select>
-                                </div>
-                                <div>
-                                    <label className="block text-sm font-bold text-[var(--color-text-secondary)] mb-2">テスト種類</label>
-                                    <select
-                                        value={formData.testType}
-                                        onChange={e => setFormData({ ...formData, testType: e.target.value })}
-                                        className="w-full border border-[var(--color-border)] rounded-xl p-3 focus:ring-2 focus:ring-[var(--color-primary)] outline-none bg-[var(--color-bg-secondary)] focus:bg-[var(--color-bg-card)] text-[var(--color-text-primary)]"
-                                    >
-                                        {testTypes.map(t => <option key={t} value={t}>{t}</option>)}
-                                    </select>
-                                </div>
-                            </div>
-
-                            <div>
-                                <label className="block text-sm font-bold text-[var(--color-text-secondary)] mb-2">タグ (カンマ区切り)</label>
-                                <input
-                                    type="text"
-                                    value={formData.tags}
-                                    onChange={e => setFormData({ ...formData, tags: e.target.value })}
-                                    className="w-full border border-[var(--color-border)] rounded-xl p-3 focus:ring-2 focus:ring-[var(--color-primary)] outline-none bg-[var(--color-bg-secondary)] focus:bg-[var(--color-bg-card)] text-[var(--color-text-primary)]"
-                                    placeholder="例: 1学期, 難問"
-                                />
-                            </div>
-
-                            <div className="pt-4 flex gap-4">
+                            {/* Fixed Action Buttons */}
+                            <div className="pt-4 flex gap-4 flex-shrink-0 border-t border-[var(--color-border)] mt-auto bg-[var(--color-bg-card)]">
                                 <button
                                     type="button"
                                     onClick={() => setShowModal(false)}
-                                    className="flex-1 tap-target border border-[var(--color-border)] rounded-xl text-[var(--color-text-muted)] font-bold hover:bg-[var(--color-bg-hover)] transition-colors"
+                                    className="flex-1 tap-target py-3 border border-[var(--color-border)] rounded-xl text-[var(--color-text-muted)] font-bold hover:bg-[var(--color-bg-hover)] transition-colors"
                                     disabled={isUploading}
                                 >
                                     キャンセル
                                 </button>
                                 <button
                                     type="submit"
-                                    className="flex-1 tap-target bg-[var(--color-primary)] text-[var(--color-text-inverse)] rounded-xl font-bold hover:bg-[var(--color-primary-dark)] shadow-md transition-colors"
+                                    className="flex-1 tap-target py-3 bg-[var(--color-primary)] text-[var(--color-text-inverse)] rounded-xl font-bold hover:bg-[var(--color-primary-dark)] shadow-md transition-colors"
                                     disabled={isUploading}
                                 >
                                     {isUploading ? '保存中...' : '保存する'}
