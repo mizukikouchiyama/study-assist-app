@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { ArrowLeft, Plus, ChevronLeft, ChevronRight, Trash2, Calendar as CalendarIconLucide } from 'lucide-react';
-import { CalendarIcon, PlusIcon, FileIcon, TrashIcon } from './icons/Icons';
+import { CalendarIcon, PlusIcon, FileIcon, TrashIcon, SubjectMathIcon, SubjectEnglishIcon, SubjectJapaneseIcon, SubjectScienceIcon, SubjectSocialIcon, CircleFilledIcon } from './icons/Icons';
 import { Link } from 'react-router-dom';
 import { sendTestReminderNotification } from '../services/slackService';
 
@@ -86,17 +86,21 @@ const Calendar = () => {
     const weekDays = ['日', '月', '火', '水', '木', '金', '土'];
 
     const getUrgencyBadge = (daysUntil) => {
-        if (daysUntil === 0) return { emoji: '🔴', text: '今日!', color: 'bg-red-500', textCol: 'text-red-600 dark:text-red-400', bgCol: 'bg-red-50 dark:bg-red-900/30', border: 'border-red-200 dark:border-red-800' };
-        if (daysUntil <= 1) return { emoji: '🟠', text: '明日', color: 'bg-orange-500', textCol: 'text-orange-600 dark:text-orange-400', bgCol: 'bg-orange-50 dark:bg-orange-900/30', border: 'border-orange-200 dark:border-orange-800' };
-        if (daysUntil <= 3) return { emoji: '🟡', text: `あと${daysUntil}日`, color: 'bg-yellow-500', textCol: 'text-yellow-600 dark:text-yellow-400', bgCol: 'bg-yellow-50 dark:bg-yellow-900/30', border: 'border-yellow-200 dark:border-yellow-800' };
-        return { emoji: '🟢', text: `あと${daysUntil}日`, color: 'bg-green-500', textCol: 'text-green-600 dark:text-green-400', bgCol: 'bg-green-50 dark:bg-green-900/30', border: 'border-green-200 dark:border-green-800' };
+        if (daysUntil === 0) return { icon: <CircleFilledIcon size={14} color="#ef4444" />, text: '今日!', color: 'bg-red-500', textCol: 'text-red-600 dark:text-red-400', bgCol: 'bg-red-50 dark:bg-red-900/30', border: 'border-red-200 dark:border-red-800' };
+        if (daysUntil <= 1) return { icon: <CircleFilledIcon size={14} color="#f97316" />, text: '明日', color: 'bg-orange-500', textCol: 'text-orange-600 dark:text-orange-400', bgCol: 'bg-orange-50 dark:bg-orange-900/30', border: 'border-orange-200 dark:border-orange-800' };
+        if (daysUntil <= 3) return { icon: <CircleFilledIcon size={14} color="#eab308" />, text: `あと${daysUntil}日`, color: 'bg-yellow-500', textCol: 'text-yellow-600 dark:text-yellow-400', bgCol: 'bg-yellow-50 dark:bg-yellow-900/30', border: 'border-yellow-200 dark:border-yellow-800' };
+        return { icon: <CircleFilledIcon size={14} color="#22c55e" />, text: `あと${daysUntil}日`, color: 'bg-green-500', textCol: 'text-green-600 dark:text-green-400', bgCol: 'bg-green-50 dark:bg-green-900/30', border: 'border-green-200 dark:border-green-800' };
     };
 
-    const getSubjectEmoji = (subject) => {
-        const map = {
-            '数学': '📐', '英語': '🔤', '国語': '📖', '理科': '🔬', '社会': '🌍', 'その他': ''
-        };
-        return map[subject] || '';
+    const getSubjectIcon = (subject) => {
+        switch (subject) {
+            case '数学': return <SubjectMathIcon size={24} color="var(--color-primary)" />;
+            case '英語': return <SubjectEnglishIcon size={24} color="var(--color-primary)" />;
+            case '国語': return <SubjectJapaneseIcon size={24} color="var(--color-primary)" />;
+            case '理科': return <SubjectScienceIcon size={24} color="var(--color-primary)" />;
+            case '社会': return <SubjectSocialIcon size={24} color="var(--color-primary)" />;
+            default: return <FileIcon size={24} color="var(--color-primary)" />;
+        }
     };
 
     return (
@@ -276,7 +280,7 @@ const Calendar = () => {
                                                     <span className="text-xs text-[var(--color-text-muted)]">{test.date.replace(/-/g, '/')}</span>
                                                 </div>
                                                 <h4 className="font-bold text-[var(--color-text-primary)] text-lg flex items-center">
-                                                    <span className="mr-2 text-2xl">{getSubjectEmoji(test.subject)}</span>
+                                                    <span className="mr-2 flex items-center">{getSubjectIcon(test.subject)}</span>
                                                     {test.name}
                                                 </h4>
                                                 {test.range && (

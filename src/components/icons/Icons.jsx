@@ -177,3 +177,98 @@ export const TrendingUpIcon = ({ size = 24, color = 'currentColor' }) => (
         <polyline points="17,6 23,6 23,12" />
     </svg>
 );
+
+export const CoffeeIcon = ({ size = 24, color = 'currentColor' }) => (
+    <svg {...base(size, color)}>
+        <path d="M18 8h1a4 4 0 0 1 0 8h-1" />
+        <path d="M2 8h16v9a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4V8z" />
+        <line x1="6" y1="1" x2="6" y2="4" />
+        <line x1="10" y1="1" x2="10" y2="4" />
+        <line x1="14" y1="1" x2="14" y2="4" />
+    </svg>
+);
+
+export const TomatoIcon = ({ size = 24, color = 'currentColor' }) => (
+    <svg {...base(size, color)}>
+        <path d="M12 22a9 9 0 1 0 0-18 9 9 0 0 0 0 18z" />
+        <path d="M12 4v4" />
+        <path d="M12 8l-2.5-2.5" />
+        <path d="M12 8l2.5-2.5" />
+    </svg>
+);
+
+export const PartyIcon = ({ size = 24, color = 'currentColor' }) => (
+    <svg {...base(size, color)}>
+        <path d="M5.8 11.3L2 22l10.7-3.8" />
+        <path d="M4 3h.01M22 6h.01M19 13h.01M22 22h.01M8 2h.01M16 2h.01" />
+        <line x1="15.3" y1="8.7" x2="20.6" y2="3.4" />
+        <line x1="11" y1="13" x2="15" y2="9" />
+    </svg>
+);
+
+export const TrophyIcon = ({ size = 24, color = 'currentColor' }) => (
+    <svg {...base(size, color)}>
+        <circle cx="12" cy="8" r="7" />
+        <polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88" />
+    </svg>
+);
+
+export const MedalIcon = ({ size = 24, color = 'currentColor', text }) => (
+    <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke={color} strokeWidth={1.5} strokeLinecap="round" strokeLinejoin="round">
+        <circle cx="12" cy="14" r="6" />
+        <path d="M9 10L6 2l3-1 3 8" />
+        <path d="M15 10l3-8-3-1-3 8" />
+        {text && <text x="12" y="17" fontSize="8" textAnchor="middle" fill={color} strokeWidth="0" fontWeight="bold">{text}</text>}
+    </svg>
+);
+
+export const BadgeIcon = ({ size = 24, color = 'currentColor', text }) => (
+    <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke={color} strokeWidth={1.5}>
+        <circle cx="12" cy="12" r="10" />
+        {text && <text x="12" y="16" fontSize="12" textAnchor="middle" fill={color} strokeWidth="0" fontWeight="bold">{text}</text>}
+    </svg>
+);
+
+export const SubjectMathIcon = ({ size = 24, color = 'currentColor' }) => (
+    <svg {...base(size, color)}>
+        <polygon points="4,20 20,20 4,4" />
+        <circle cx="8" cy="16" r="1.5" />
+    </svg>
+);
+
+export const SubjectEnglishIcon = ({ size = 24, color = 'currentColor' }) => (
+    <svg {...base(size, color)}>
+        <path d="M4 7V4h16v3" />
+        <path d="M9 20h6" />
+        <path d="M12 4v16" />
+    </svg>
+);
+
+export const SubjectJapaneseIcon = ({ size = 24, color = 'currentColor' }) => (
+    <svg {...base(size, color)}>
+        <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20" />
+        <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z" />
+    </svg>
+);
+
+export const SubjectScienceIcon = ({ size = 24, color = 'currentColor' }) => (
+    <svg {...base(size, color)}>
+        <path d="M9 3h6" />
+        <path d="M10 3v4l-6 11a2 2 0 0 0 1.7 3h14.6a2 2 0 0 0 1.7-3l-6-11V3" />
+        <path d="M8 14h8" />
+    </svg>
+);
+
+export const SubjectSocialIcon = ({ size = 24, color = 'currentColor' }) => (
+    <svg {...base(size, color)}>
+        <circle cx="12" cy="12" r="10" />
+        <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z" />
+        <path d="M2 12h20" />
+    </svg>
+);
+
+export const CircleFilledIcon = ({ size = 24, color = 'currentColor' }) => (
+    <svg width={size} height={size} viewBox="0 0 24 24" fill={color}>
+        <circle cx="12" cy="12" r="10" />
+    </svg>
+);

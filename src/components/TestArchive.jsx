@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useMemo, useCallback } from 'react';
 import { Search, Plus, X, ArrowLeft } from 'lucide-react';
-import { ArchiveIcon, PlusIcon, UploadIcon } from './icons/Icons';
+import { ArchiveIcon, PlusIcon, UploadIcon, FileIcon } from './icons/Icons';
 import { Link } from 'react-router-dom';
 import { saveArchives, loadArchives } from '../services/storageService';
 import ArchiveCard from './ArchiveCard';
@@ -259,8 +259,8 @@ const TestArchive = () => {
                                     required
                                 />
                                 <div className={`border-2 border-dashed ${selectedFile ? 'border-[var(--color-primary)] bg-green-50 dark:bg-green-900/10' : 'border-[var(--color-border)] hover:border-[var(--color-primary)] hover:bg-[var(--color-bg-hover)]'} rounded-2xl p-8 text-center transition-all`}>
-                                    <div className="text-5xl mb-4">
-                                        {selectedFile ? '📄' : '📤'}
+                                    <div className="mb-4 flex justify-center">
+                                        {selectedFile ? <FileIcon size={48} color="var(--color-primary)" /> : <UploadIcon size={48} color="var(--color-text-muted)" />}
                                     </div>
                                     <p className={`text-lg font-bold ${selectedFile ? 'text-[var(--color-primary)]' : 'text-gray-600 dark:text-gray-400'}`}>
                                         {selectedFile ? selectedFile.name : 'ファイルをドロップ'}

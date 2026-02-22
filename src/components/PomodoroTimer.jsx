@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useMemo, useCallback } from 'react';
-import { PlayIcon, PauseIcon, ResetIcon, ArrowLeftIcon, TimerIcon } from './icons/Icons';
+import { PlayIcon, PauseIcon, ResetIcon, ArrowLeftIcon, TimerIcon, CoffeeIcon, TomatoIcon, PartyIcon } from './icons/Icons';
 import { Link } from 'react-router-dom';
 import { useTimer } from '../context/TimerContext';
 import { statsService } from '../services/statsService';
@@ -85,7 +85,9 @@ const PomodoroTimer = () => {
 
                     {isCompleted && (
                         <div className="absolute inset-0 z-50 bg-[var(--color-bg-card)]/90 flex flex-col items-center justify-center animate-fadeIn backdrop-blur-sm">
-                            <span className="text-6xl mb-4 animate-bounce">🎉</span>
+                            <div className="flex justify-center mb-4 animate-bounce">
+                                <PartyIcon size={64} color="var(--color-primary)" />
+                            </div>
                             <h3 className="text-2xl font-bold text-[var(--color-primary)] mb-2">お疲れ様でした！</h3>
                             <p className="text-[var(--color-text-secondary)] mb-6">セッション完了です</p>
                             <button
@@ -159,7 +161,7 @@ const PomodoroTimer = () => {
                                     mode === 'work' ? (
                                         <TimerIcon size={36} color="var(--color-primary)" />
                                     ) : (
-                                        '☕'
+                                        <CoffeeIcon size={36} color="var(--color-primary)" />
                                     )
                                 ) : (
                                     <PauseIcon size={32} color="var(--color-primary)" />
@@ -196,7 +198,9 @@ const PomodoroTimer = () => {
                             <p className="text-xs text-[var(--color-text-muted)] mb-2 uppercase tracking-wide font-bold">Today's Focus</p>
                             <div className="flex justify-center flex-wrap gap-1 text-2xl">
                                 {[...Array(completedSessions)].map((_, i) => (
-                                    <span key={i} className="animate-scaleIn" style={{ animationDelay: `${i * 0.1}s` }}>🍅</span>
+                                    <div key={i} className="animate-scaleIn flex items-center justify-center p-1" style={{ animationDelay: `${i * 0.1}s` }}>
+                                        <TomatoIcon size={28} color="var(--color-accent-coral)" />
+                                    </div>
                                 ))}
                             </div>
                         </div>
