@@ -105,7 +105,6 @@
     background-color: var(--color-bg-primary);
     color: var(--color-text-primary);
     font-family: 'Libre Baskerville', Baskerville, serif;
-    padding-top: env(safe-area-inset-top, 0px);
   }
 
   /* ダークモード切替時のスムーズなトランジション */
@@ -339,4 +338,9 @@
 :root {
   --safe-area-bottom: env(safe-area-inset-bottom, 0px);
   --safe-area-top: env(safe-area-inset-top, 0px);
+}
+
+/* iOS ステータスバー対応 */
+.page-header {
+  padding-top: env(safe-area-inset-top, 44px);
 }

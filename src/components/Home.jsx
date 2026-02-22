@@ -45,7 +45,7 @@ const Home = () => {
     return (
         <div className="min-h-screen pb-20 animate-fadeIn" style={{ backgroundColor: 'var(--color-bg-primary)' }}>
             {/* Header */}
-            <header className="sticky top-0 z-40 shadow-sm" style={{ backgroundColor: 'var(--color-bg-card)', borderBottom: '1px solid var(--color-border)' }}>
+            <header className="page-header sticky top-0 z-40 shadow-sm" style={{ backgroundColor: 'var(--color-bg-card)', borderBottom: '1px solid var(--color-border)' }}>
                 <div className="max-w-7xl mx-auto px-4 py-4 flex justify-between items-center">
                     <div>
                         <h1 className="text-2xl font-bold" style={{ fontFamily: "'Libre Baskerville', Baskerville, serif", color: 'var(--color-primary)' }}>

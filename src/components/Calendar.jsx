@@ -106,7 +106,7 @@ const Calendar = () => {
     return (
         <div className="min-h-screen bg-[var(--color-bg-primary)] pb-24 md:pb-8 animate-fadeIn smooth-scroll">
             {/* Header */}
-            <header className="sticky top-0 z-40 shadow-sm bg-[var(--color-bg-card)] border-b border-[var(--color-border)]">
+            <header className="page-header sticky top-0 z-40 shadow-sm bg-[var(--color-bg-card)] border-b border-[var(--color-border)]">
                 <div className="max-w-7xl mx-auto px-4 py-3 flex items-center justify-between">
                     <div className="flex items-center">
                         <Link to="/" className="mr-4 text-[var(--color-text-secondary)] hover:text-[var(--color-primary)] md:hidden">

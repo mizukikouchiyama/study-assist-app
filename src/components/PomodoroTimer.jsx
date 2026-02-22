@@ -60,7 +60,7 @@ const PomodoroTimer = () => {
     return (
         <div className="min-h-screen bg-[var(--color-bg-secondary)] flex flex-col animate-fadeIn pb-24 md:pb-0">
             {/* Header */}
-            <header className="sticky top-0 z-40 shadow-sm bg-[var(--color-bg-card)] border-b border-[var(--color-border)]">
+            <header className="page-header sticky top-0 z-40 shadow-sm bg-[var(--color-bg-card)] border-b border-[var(--color-border)]">
                 <div className="max-w-7xl mx-auto px-4 py-3 flex items-center">
                     <Link to="/" className="mr-4 text-[var(--color-text-secondary)] hover:text-[var(--color-primary)] md:hidden">
                         <ArrowLeftIcon size={20} />
