@@ -239,7 +239,11 @@ const TestArchive = () => {
             {/* モーダル */}
             {showModal && (
                 <div className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-end md:items-center justify-center z-50 animate-fadeIn" onClick={() => setShowModal(false)}>
-                    <div className="bg-[var(--color-bg-card)] rounded-t-2xl md:rounded-2xl shadow-2xl w-full max-w-lg p-6 border-t md:border border-[var(--color-border)] animate-slideUp md:animate-scaleIn max-h-[90vh] overflow-y-auto" onClick={e => e.stopPropagation()}>
+                    <div
+                        className="bg-[var(--color-bg-card)] rounded-t-2xl md:rounded-2xl shadow-2xl w-full max-w-lg p-6 border-t md:border border-[var(--color-border)] animate-slideUp md:animate-scaleIn overflow-y-auto"
+                        style={{ maxHeight: '90vh', WebkitOverflowScrolling: 'touch' }}
+                        onClick={e => e.stopPropagation()}
+                    >
                         <div className="w-12 h-1 bg-gray-300 dark:bg-gray-600 rounded-full mx-auto mb-6 md:hidden"></div>
                         <div className="flex justify-between items-center mb-6">
                             <h3 className="text-xl font-bold text-[var(--color-text-primary)]">新規アーカイブ追加</h3>

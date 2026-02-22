@@ -315,7 +315,11 @@ const Calendar = () => {
             {/* モーダル */}
             {showAddModal && (
                 <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-end md:items-center justify-center z-50 animate-fadeIn" onClick={() => setShowAddModal(false)}>
-                    <div className="bg-[var(--color-bg-card)] rounded-t-2xl md:rounded-2xl shadow-2xl w-full max-w-md p-6 border-t md:border border-[var(--color-border)] animate-slideUp md:animate-scaleIn max-h-[90vh] overflow-y-auto" onClick={(e) => e.stopPropagation()}>
+                    <div
+                        className="bg-[var(--color-bg-card)] rounded-t-2xl md:rounded-2xl shadow-2xl w-full max-w-md p-6 border-t md:border border-[var(--color-border)] animate-slideUp md:animate-scaleIn overflow-y-auto"
+                        style={{ maxHeight: '90vh', WebkitOverflowScrolling: 'touch' }}
+                        onClick={(e) => e.stopPropagation()}
+                    >
                         <div className="w-12 h-1 bg-gray-300 dark:bg-gray-600 rounded-full mx-auto mb-6 md:hidden"></div>
                         <h3 className="heading-responsive font-bold mb-6 text-[var(--color-text-primary)] flex items-center gap-2">
                             <FileIcon size={20} color="var(--color-primary)" />
