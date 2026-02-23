@@ -1,6 +1,6 @@
 {
   "appId": "com.hofu.studyassist",
-  "appName": "Study Assist",
+  "appName": "Hope",
   "webDir": "dist",
   "ios": {
     "contentInset": "always"
